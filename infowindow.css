@@ -1,0 +1,78 @@
+.infowindow{
+	width:370px;
+	font:12px/1.4286 "Microsoft Yahei";
+}
+.infowindow-title {
+	width: 362px;
+    margin: 0 auto;
+    text-indent: 10px;
+    color: #fff;
+    font-size: 16px;
+    line-height: 50px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.infowindow-sos-title {
+	background: #d94344;
+}
+.infowindow-warning-title {
+	background: #eca028;
+}
+.infowindow-title img {
+    vertical-align: middle;
+    margin-right: 6px;
+}
+.infowindow-small-title {
+    font-size: 12px;
+}
+.infowindow-lists {
+    width: 362px;
+    background: #fff;
+    margin: 0 auto;
+    box-sizing: border-box;
+    border-left: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+    padding: 20px 20px 0 20px;
+    border-bottom: 1px solid #dddddd;
+}
+.infowindow-list:first-child .infowindow-list-top {
+    color: #70c15a;
+}
+.infowindow-list-top {
+    color: #cdcdcd;
+    font-size: 20px;
+    margin-left: -6px;
+    margin-top: -14px;
+}
+.infowindow-list-time {
+    color: #cdcdcd;
+    font-size: 12px;
+}
+
+.infowindow_list:first-child .infowindow-list-bottom {
+    color: #70c15a;
+}
+.infowindow-list-bottom {
+    margin-top: -8px;
+    padding: 10px 0 20px 15px;
+    border-left: 1px solid #cdcdcd; 
+}
+.infowindow-list:last-child .infowindow-list-bottom {
+    border-left: none;
+}
+
+.infowindow-cont {
+    font-size: 14px;
+    width: 362px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    background: #ffffff;
+    padding: 10px 10px 0 10px;
+    line-height: 20px;
+    border-left: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+}
+.infowindow-bottom {
+    height: 40px;
+    background: url('Pop_ups_bg_d.png') no-repeat bottom;
+}

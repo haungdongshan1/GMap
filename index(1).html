@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>google地图api</title>
+    <style type="text/css">
+    html, body { height: 100%; margin: 0; padding: 0; }
+    #map { height: 100%; }
+    </style>
+    <link rel="stylesheet" type="text/css" href="infowindow.css">
+  </head>
+  <body>
+  <!--实时位置
+      定位轨迹
+      点击列表找人弹窗-->
+    <div id="map"></div>
+    <div id="getLocaltion"></div>
+    <div>
+      <!-- //普通员工信息窗口 -->
+      <div></div>
+      <!-- 事故报警信息窗口 -->
+      <div class="infowindow">
+        <div class="infowindow-title infowindow-warning-title">
+          <img src="Popup_Accident.png">
+          范冰冰
+          <span class="infowindow-small-title">(红牌楼高建项目部)</span>
+        </div>
+        <div class="infowindow-lists">
+          <div class="infowindow-list">
+            <div class="infowindow-list-top">● <span class="infowindow-list-time">11:55:51</span></div>
+            <div class="infowindow-list-bottom">范冰冰等待救援</div>
+          </div>
+          <div class="infowindow-list">
+            <div class="infowindow-list-top">● <span class="infowindow-list-time">11:55:51</span></div>
+            <div class="infowindow-list-bottom">通知罗宇翔进行救援</div>
+          </div>
+        </div>
+        <div class="infowindow-cont">四川省成都市武侯区簇锦街道西部智谷D区</div>
+        <div class="infowindow-bottom"></div>
+      </div>
+    </div>
+      <!-- sos信息窗口 -->
+      <div class="infowindow">
+        <div class="infowindow-title infowindow-sos-title">
+          <img src="Popup_SOS.png">
+          范冰冰
+          <span class="infowindow-small-title">(红牌楼高建项目部)</span>
+        </div>
+        <div class="infowindow-lists">
+          <div class="infowindow-list">
+            <div class="infowindow-list-top">● <span class="infowindow-list-time">11:55:51</span></div>
+            <div class="infowindow-list-bottom">范冰冰等待救援</div>
+          </div>
+          <div class="infowindow-list">
+            <div class="infowindow-list-top">● <span class="infowindow-list-time">11:55:51</span></div>
+            <div class="infowindow-list-bottom">通知罗宇翔进行救援</div>
+          </div>
+        </div>
+        <div class="infowindow-cont">四川省成都市武侯区簇锦街道西部智谷D区</div>
+        <div class="infowindow-bottom"></div>
+      </div>
+    </div>
+  <script type="text/javascript">
+  function initMap() {
+  var chengdu = {lat:30.621608, lng: 103.997229};
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 15,
+    center: chengdu
+  });
+//  console.log(chengdu);
+  var contentString ='<div class="infowindow"><div class="infowindow-title infowindow-warning-title"><img src="Popup_Accident.png">'+'范冰冰'+'<span class="infowindow-small-title">(红牌楼高建项目部)</span></div><div class="infowindow-lists"><div class="infowindow-list"><div class="infowindow-list-top">● <span class="infowindow-list-time">11:55:51</span></div><div class="infowindow-list-bottom">范冰冰等待救援</div></div><div class="infowindow-list"><div class="infowindow-list-top">● <span class="infowindow-list-time">11:55:51</span></div><div class="infowindow-list-bottom">通知罗宇翔进行救援</div></div></div><div class="infowindow-cont">四川省成都市武侯区簇锦街道西部智谷D区</div><div class="infowindow-bottom"></div></div>';
+
+  var infowindow = new google.maps.InfoWindow({
+    content: contentString,
+    maxWidth: 372
+  });
+
+  var marker1 = new google.maps.Marker({
+    position: chengdu,
+    map: map,
+    title: 'chengdu (Ayers Rock)'
+  });
+  marker1.addListener('click', function() {
+    infowindow.open(map, marker1);
+  });
+
+    var data =  [
+      {position:{lat:30.621608,lng:103.997229},name:"123"},
+      {position:{lat:30.617735,lng:104.002872},name:"125"},
+      {position:{lat:30.614665,lng:103.996886},name:"445"},
+      {position:{lat:30.617417,lng:104.007056},name:"555"},
+      {position:{lat:30.609624,lng:104.006777},name:"777"},
+      {position:{lat:30.610002,lng:103.999246},name:"456"},
+      {position:{lat:30.608848,lng:103.996489},name:"111"},
+      {position:{lat:30.613428,lng:103.998945},name:"111"},
+      {position:{lat:30.615976,lng:103.994193},name:"111"},
+      {position:{lat:30.618608,lng:103.988753},name:"111"},
+      {position:{lat:30.622199,lng:103.990352},name:"王思聪"},
+      {position:{lat:30.639987,lng:103.976755},name:"111"},
+      {position:{lat:30.643919,lng:103.981605},name:"111"},
+      {position:{lat:30.641408,lng:103.983664},name:"李嘉诚"},
+      {position:{lat:30.641925,lng:103.973322},name:"林志林"},
+      {position:{lat:30.639248,lng:103.983407},name:"111"},
+      {position:{lat:30.638307,lng:103.982141},name:"111"},
+      {position:{lat:30.635279,lng:103.972034},name:"111"},
+      {position:{lat:30.634669,lng:103.989201},name:"111"},
+      {position:{lat:30.635002,lng:103.981905},name:"111"},
+      {position:{lat:30.633839,lng:103.977463},name:"111"},
+      {position:{lat:30.635242,lng:103.979909},name:"111"},
+      {position:{lat:30.638805,lng:103.992634},name:"111"},
+      {position:{lat:30.626825,lng:103.992937},name:"111"}
+    ];
+    // console.log()
+    for(var i= 0,marker;i<data.length;i++){
+      var marker = new google.maps.Marker({
+        position: data[i].position,
+        map: map,
+        lable: {
+          color:"red",
+          text:data.name
+        }
+      });
+      marker.addListener('click',markerClick);
+//      console.log(this.getLabel());
+    }
+    var count = 0;//close other infowindow
+    var workerInfoWindow = new Array();
+    function markerClick(e){
+      for(var i = 0;i<workerInfoWindow.length;i++){
+        workerInfoWindow[i].close();
+      }
+      count = 0;
+      workerInfoWindow[count] = new google.maps.InfoWindow({
+        content: contentString,
+        maxWidth: 372
+      });
+      workerInfoWindow[count].open(map, this);
+      count++;
+    };
+
+    var markerdemo = new google.maps.Marker({
+      position:{lat:30.156545,lng:103.564156},
+      map:map,
+      lable:"I am demo"
+    });
+    var line = new Array();
+    map.addListener('click',function(e){
+//      console.log(e.latlng);
+    })
+
+    var coordinates = [
+      {lat:30.643919,lng:103.981605},
+      {lat:30.641408,lng:103.983664},
+      {lat:30.641925,lng:103.973322},
+      {lat:30.639248,lng:103.983407},
+      {lat:30.638307,lng:103.982141},
+      {lat:30.635279,lng:103.972034},
+      {lat:30.634669,lng:103.989201},
+      {lat:30.635002,lng:103.981905},
+      {lat:30.633839,lng:103.977463},
+      {lat:30.635242,lng:103.979909},
+      {lat:30.638805,lng:103.992634},
+      {lat:30.626825,lng:103.992937}    ];
+    var polyline = new google.maps.Polyline({
+      path:coordinates,
+      strokeColor:'#00f',
+      strokeOpacity:'0.5',
+      strokWeight:4,
+      map:map
+    });
+      var localDiv = document.getElementById('getlocaltion');
+    google.maps.event.addListener(map, 'click', function (event) {
+      console.log(event.latLng);
+      var temp = new Object();
+      temp.lat = event.latLng.lat();
+      temp.lng = event.latLng.lng();
+      line.push(temp);
+      console.log(line);
+        if(line.length > 30){
+//            window.document.write(line);
+            var polyline222 = new google.maps.Polyline({
+                path:line,
+                strokeColor:'#00f',
+                strokeOpacity:'0.5',
+                strokWeight:4,
+                map:map
+            });
+        };
+
+    });
+
+    var workerTrail = [
+      (30.632105464317988,103.99293422698975),
+      (30.63201314729034, 103.99268746376038),
+      (30.631920830174607, 103.99259090423584),
+      (30.631846976418583, 103.99239778518677),
+      (30.631745427412056, 103.99229049682617),
+      (30.631662341781958, 103.99208664894104),
+      (30.6315977195759, 103.99191498756409),
+      (30.631542329079213, 103.99178624153137),
+      (30.631459243274747, 103.99157166481018),
+      (30.63142231622762, 103.99147510528564),
+      (30.631339230320105, 103.99129271507263),
+      (30.63125614434121, 103.99112105369568),
+      (30.631182290077877, 103.99097084999084),
+      (30.631062276779733, 103.99079918861389),
+      (30.630988422368414, 103.9905846118927),
+      (30.63090533608832, 103.9904773235321),
+      (30.630803786093526, 103.9901876449585),
+      (30.63073916331408, 103.99005889892578),
+      (30.630683772325934, 103.98987650871277),
+      (30.63057299025448, 103.98966193199158),
+      (30.630517599171196, 103.98951172828674),
+      (30.63039758504865, 103.98932933807373),
+      (30.63030526639154, 103.9891254901886),
+      (30.630231411402463, 103.98893237113953),
+      (30.630037541787868, 103.98847103118896),
+      (30.629492858411208, 103.98855686187744),
+      (30.629086651863336, 103.9887285232544),
+      (30.628505034973934, 103.98898601531982),
+      (30.62808036011654, 103.98905038833618),
+      (30.62776646880676, 103.98918986320496),
+      (30.627517201453134, 103.98925423622131)
+    ];
+
+//    //画个人运动轨迹
+//    function trail(path,map){
+//      var polyline = new google.maps.Polyline({
+//        path:coordinates,
+//        strokeColor:'#00f',
+//        strokeOpacity:'0.5',
+//        strokWeight:4,
+//        map:map
+//      });
+//
+//      return polyline;
+//    }
+
+//    var polyline2 = new google.maps.Polyline({
+//      path:trail,
+//      strokeColor:'#00f',
+//      strokeOpacity:'0.5',
+//      strokWeight:4,
+//      map:map
+//    });
+
+
+
+
+};//initmap()结束
+
+
+    </script>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAD7P2dy7rXuj_WhfPNcwl-3h618c0MkgA&callback=initMap">
+    </script>
+  </body>
+</html>
