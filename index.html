@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>这个demo2.0</title>
     <style type="text/css">
         html, body { height: 100%; margin: 0; padding: 0; }
         #map { height: 100%; }
@@ -12,6 +12,20 @@
             width: 100px;height:200px;}
     </style>
     <link rel="stylesheet" type="text/css" href="infowindow.css">
+    <!-- （必选）加载 Mock -->
+    <script src="jquery1.10.0.js"></script>
+    <!-- <script src="mock.js"></script> -->
+<!--     <script>
+    // 使用 Mock
+    var data = Mock.mock({
+        'list|1-10': [{
+            'id|+1': 1
+        }]
+    });
+    $('<pre>').text(JSON.stringify(data, null, 4))
+    .appendTo($('#getLocaltion'))
+    </script> -->
+
 </head>
 <body>
 <!--
@@ -27,7 +41,84 @@
 <div id="getLocaltion"></div>
 
 <script>
+    //1.google.map.init()
+    function initMap() {
+        var chengdu = {lat: 30.621608, lng: 103.997229};
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: chengdu
+        });
 
+        var data = getWorkerData();
+
+        //生成marker
+        setMarker(data,map);
+
+    }//end init()
+
+    var data = [
+        {position:{lat:30.621608,lng:103.997229},name:"123",id:"100001"},
+        {position:{lat:30.617735,lng:104.002872},name:"125"},
+        {position:{lat:30.614665,lng:103.996886},name:"445"},
+        {position:{lat:30.617417,lng:104.007056},name:"555"},
+        {position:{lat:30.609624,lng:104.006777},name:"777"},
+        {position:{lat:30.610002,lng:103.999246},name:"456"},
+        {position:{lat:30.608848,lng:103.996489},name:"111"},
+        {position:{lat:30.613428,lng:103.998945},name:"111"},
+        {position:{lat:30.615976,lng:103.994193},name:"111"},
+        {position:{lat:30.618608,lng:103.988753},name:"111",status:1},
+        {position:{lat:30.622199,lng:103.990352},name:"王思聪",status:2,id:"work123456"},//2为警报
+        {position:{lat:30.639987,lng:103.976755},name:"111"},
+        {position:{lat:30.643919,lng:103.981605},name:"111"},
+        {position:{lat:30.641408,lng:103.983664},name:"李嘉诚",status:3},//3为紧急求救
+        {position:{lat:30.641925,lng:103.973322},name:"林志林",status:3},
+        {position:{lat:30.639248,lng:103.983407},name:"111"},
+        {position:{lat:30.638307,lng:103.982141},name:"111"},
+        {position:{lat:30.635279,lng:103.972034},name:"111"},
+        {position:{lat:30.634669,lng:103.989201},name:"111"},
+        {position:{lat:30.635002,lng:103.981905},name:"111"},
+        {position:{lat:30.633839,lng:103.977463},name:"111"},
+        {position:{lat:30.635242,lng:103.979909},name:"111"},
+        {position:{lat:30.638805,lng:103.992634},name:"111"},
+        {position:{lat:30.626825,lng:103.992937},name:"111"}
+        ];
+
+    function getWorkerData(){
+        return data;
+    }
+
+    function setMarker(data,map){
+        for(var i= 0,marker;i<data.length;i++){
+            var marker = new google.maps.Marker({
+                position: data[i].position,
+                map: map,
+                lable: {
+                  color:"red",
+                  text:data.name
+                }
+            });
+            // marker.addListener('click',markerClick);
+        }
+    }
+
+    function markerClick(e){
+            for(var i = 0;i<workerInfoWindow.length;i++){
+                workerInfoWindow[i].close();
+            }
+            count = 0;
+            workerInfoWindow[count] = new google.maps.InfoWindow({
+                content: infowindowContentWraning,
+                maxWidth: 372
+            });
+            workerInfoWindow[count].open(map, this);
+            count++;
+        };
+
+           
 </script>
+
+<script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAD7P2dy7rXuj_WhfPNcwl-3h618c0MkgA&callback=initMap">
+    </script>
 </body>
 </html>

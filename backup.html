@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>这个demo2.0</title>
+    <style type="text/css">
+        html, body { height: 100%; margin: 0; padding: 0; }
+        #map { height: 100%; }
+        #handle-bar{position: fixed;left:0;bottom:0;background: #70c15a;
+            width: 300px;height:40px;}
+        #worker-list{position: fixed;left:0;bottom:40px;background:#dddddd;
+            width: 100px;height:200px;}
+    </style>
+    <link rel="stylesheet" type="text/css" href="infowindow.css">
+    <!-- （必选）加载 Mock -->
+    <!-- <script src="jquery.js"></script>
+    <script src="mock.js"></script>
+    <script>
+    // 使用 Mock
+    var data = Mock.mock({
+        'list|1-10': [{
+            'id|+1': 1
+        }]
+    });
+    $('<pre>').text(JSON.stringify(data, null, 4))
+    .appendTo($('#getLocaltion'))
+    </script> -->
+
+</head>
+<body>
+<!--
+----1.即时定位
+----2.轨迹
+----3.地图定位相应的人
+-->
+<div id="map"></div>
+<div id="handle-bar"></div>
+<div id="worker-list">
+    <button id="work123456">王小波</button>
+</div>
+<div id="getLocaltion"></div>
+
+<script>
+    //1.google.map.init()
+    function initMap() {
+        var chengdu = {lat: 30.621608, lng: 103.997229};
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: chengdu
+        });
+
+        //define contentString:here is three String
+        var infowindowContentNormal  = '';
+        var infowindowContentSos     = '';
+        var infowindowContentWraning = '<div class="infowindow"><div class="infowindow-title infowindow-warning-title"><img src="Popup_Accident.png">'+'范冰冰'+'<span class="infowindow-small-title">(红牌楼高建项目部)</span></div><div class="infowindow-lists"><div class="infowindow-list"><div class="infowindow-list-top">● <span class="infowindow-list-time">11:55:51</span></div><div class="infowindow-list-bottom">范冰冰等待救援</div></div><div class="infowindow-list"><div class="infowindow-list-top">● <span class="infowindow-list-time">11:55:51</span></div><div class="infowindow-list-bottom">通知罗宇翔进行救援</div></div></div><div class="infowindow-cont">四川省成都市武侯区簇锦街道西部智谷D区</div><div class="infowindow-bottom"></div></div>';
+
+        //this is the data,you can use json.
+        var data = [
+        {position:{lat:30.621608,lng:103.997229},name:"123",id:"100001"},
+        {position:{lat:30.617735,lng:104.002872},name:"125"},
+        {position:{lat:30.614665,lng:103.996886},name:"445"},
+        {position:{lat:30.617417,lng:104.007056},name:"555"},
+        {position:{lat:30.609624,lng:104.006777},name:"777"},
+        {position:{lat:30.610002,lng:103.999246},name:"456"},
+        {position:{lat:30.608848,lng:103.996489},name:"111"},
+        {position:{lat:30.613428,lng:103.998945},name:"111"},
+        {position:{lat:30.615976,lng:103.994193},name:"111"},
+        {position:{lat:30.618608,lng:103.988753},name:"111",status:1},
+        {position:{lat:30.622199,lng:103.990352},name:"王思聪",status:2,id:"work123456"},//2为警报
+        {position:{lat:30.639987,lng:103.976755},name:"111"},
+        {position:{lat:30.643919,lng:103.981605},name:"111"},
+        {position:{lat:30.641408,lng:103.983664},name:"李嘉诚",status:3},//3为紧急求救
+        {position:{lat:30.641925,lng:103.973322},name:"林志林",status:3},
+        {position:{lat:30.639248,lng:103.983407},name:"111"},
+        {position:{lat:30.638307,lng:103.982141},name:"111"},
+        {position:{lat:30.635279,lng:103.972034},name:"111"},
+        {position:{lat:30.634669,lng:103.989201},name:"111"},
+        {position:{lat:30.635002,lng:103.981905},name:"111"},
+        {position:{lat:30.633839,lng:103.977463},name:"111"},
+        {position:{lat:30.635242,lng:103.979909},name:"111"},
+        {position:{lat:30.638805,lng:103.992634},name:"111"},
+        {position:{lat:30.626825,lng:103.992937},name:"111"}
+        ];
+
+        //给每个worker生成一个marker
+        for(var i= 0,marker;i<data.length;i++){
+            var marker = new google.maps.Marker({
+                position: data[i].position,
+                map: map,
+                lable: {
+                  color:"red",
+                  text:data.name
+                }
+            });
+            marker.addListener('click',markerClick);
+        }
+        var count = 0;//close all infowindow
+        var workerInfoWindow = new Array();
+        function markerClick(e){
+            for(var i = 0;i<workerInfoWindow.length;i++){
+                workerInfoWindow[i].close();
+            }
+            count = 0;
+            workerInfoWindow[count] = new google.maps.InfoWindow({
+                content: infowindowContentWraning,
+                maxWidth: 372
+            });
+            workerInfoWindow[count].open(map, this);
+            count++;
+        };
+
+        //画折线
+        var polylineData = [
+          {lat:30.643919,lng:103.981605},
+          {lat:30.641408,lng:103.983664},
+          {lat:30.641925,lng:103.973322},
+          {lat:30.639248,lng:103.983407},
+          {lat:30.638307,lng:103.982141},
+          {lat:30.635279,lng:103.972034},
+          {lat:30.634669,lng:103.989201},
+          {lat:30.635002,lng:103.981905},
+          {lat:30.633839,lng:103.977463},
+          {lat:30.635242,lng:103.979909},
+          {lat:30.638805,lng:103.992634},
+          {lat:30.626825,lng:103.992937}    ];
+        var polyline = new google.maps.Polyline({
+          path:polylineData,
+          strokeColor:'#00f',
+          strokeOpacity:'0.5',
+          strokWeight:4,
+          editable: true,//可编辑
+          map:map
+        });
+
+        //鼠标点击选择点画路径
+        // var line = [];
+        // google.maps.event.addListener(map, 'click', function (event){
+        //     console.log(event.latLng);
+        //     var temp = new Object();
+        //     temp.lat = event.latLng.lat();
+        //     temp.lng = event.latLng.lng();
+        //     line.push(temp);
+        //     // console.log(line);
+        //     if(line.length > 1){
+        //         //  window.document.write(line);
+        //         var polyline222 = new google.maps.Polyline({
+        //             path:line,
+        //             strokeColor:'#00f',
+        //             strokeOpacity:'0.5',
+        //             strokWeight:4,
+        //             editable: true,
+        //             map:map
+        //         });
+        //     };
+        // });
+
+        //鼠标点击画多边形
+        var polygonData = [];
+        google.maps.event.addListener(map, 'click', function (event){
+            // console.log(event.latLng);
+            var temp = new Object();
+            temp.lat = event.latLng.lat();
+            temp.lng = event.latLng.lng();
+            polygonData.push(temp);
+            if(polygonData.length > 1){
+                //  window.document.write(line);
+                if (polygonTemp) {
+                    polygonTemp.setMap(null);
+                }
+                var polygonTemp = new google.maps.Polygon({
+                    path:polygonData,
+                    strokeColor:'#00f',
+                    strokeOpacity:'0.5',
+                    strokWeight:4,
+                    editable: true,
+                    map:map
+                });
+            };
+        });
+
+        //绑定个人事件
+        var infoWindowTemp = new Object();
+            google.maps.event.addDomListener(document.getElementById('work123456'),'click',function (e) {
+        //      console.log(this);
+              for(var i=0;i<data.length;i++){
+                if(data[i].id == this.id){
+                  var worker = new google.maps.Marker({
+                    position: data[i].position,
+                    map: map,
+                    lable: {
+                      color:"red",
+                      text:data.name
+                    }
+                  });
+                  console.log(infoWindowTemp);
+                  if(infoWindowTemp != null ){
+                    infoWindowTemp = new google.maps.InfoWindow({
+                      content: contentString,
+                      maxWidth: 372,
+                      position:marker.getPosition()
+                    });
+                    infoWindowTemp.open(map);
+                  }else {
+                    map.panTo(marker);
+                  }
+                }
+              }
+        });
+
+    }//end init()
+</script>
+
+<script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAD7P2dy7rXuj_WhfPNcwl-3h618c0MkgA&callback=initMap">
+    </script>
+</body>
+</html>
